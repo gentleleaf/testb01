@@ -31,7 +31,11 @@ jobs:
       - name: Clone BPB workjs
         run: |
           wget -O lhrorigin.js https://raw.githubusercontent.com/bia-pain-bache/BPB-Worker-Panel/refs/heads/main/build/unobfuscated-worker.js
-
+      
+      - name: Modify BPB worker js
+        run: |
+          echo 'const RANDOMIZER = "'"$RANDOM"'"; console.log("Randomizer:", RANDOMIZER);' | cat - lhrorigin.js > temp.js && mv temp.js lhrorigin.js
+      
       - name: Obfuscate BPB worker js
         run: |
           javascript-obfuscator lhrorigin.js --output _worker.js \
@@ -47,6 +51,7 @@ jobs:
           --string-array-threshold 1 \
           --transform-object-keys true \
           --unicode-escape-sequence true
+
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
