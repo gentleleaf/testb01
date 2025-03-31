@@ -34,7 +34,27 @@ jobs:
       
       - name: Modify BPB worker js
         run: |
-          echo 'const RANDOMIZER = "'"$RANDOM"'"; console.log("Randomizer:", RANDOMIZER);' | cat - lhrorigin.js > temp.js && mv temp.js lhrorigin.js
+          cat <<EOF > temp.js
+          // Random noise variables
+          const RANDOMIZER_1 = Math.random().toString(36).substr(2, 10);
+          const RANDOMIZER_2 = Date.now();
+          const RANDOMIZER_3 = (Math.random() * 1000000).toFixed(0);
+          
+          // Fake function calls
+          function fakeComputation() {
+              let x = 0;
+              for (let i = 0; i < 100; i++) {
+                  x += i * RANDOMIZER_3 % 7;
+              }
+              return x;
+          }
+          
+          console.log("RANDOMIZER_1:", RANDOMIZER_1);
+          console.log("RANDOMIZER_2:", RANDOMIZER_2);
+          console.log("Computation:", fakeComputation());
+          
+          EOF
+          cat lhrorigin.js >> temp.js && mv temp.js lhrorigin.js
       
       - name: Obfuscate BPB worker js
         run: |
