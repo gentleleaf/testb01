@@ -1,9 +1,8 @@
-// Random noise variables
+
 const RANDOMIZER_1 = Math.random().toString(36).substr(2, 10);
 const RANDOMIZER_2 = Date.now();
 const RANDOMIZER_3 = (Math.random() * 1000000).toFixed(0);
 
-// Fake function calls
 function fakeComputation() {
     let x = 0;
     for (let i = 0; i < 100; i++) {
